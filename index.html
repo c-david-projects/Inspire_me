@@ -80,9 +80,12 @@
         .fa-heart:hover{ 
             color:#FF5733 ;
          }
+         .bg{
+           background-color: #FFFBFA;
+         }
     </style>
 </head>
-<body class="bg-gray-100 font-sans">
+<body class="bg font-sans">
     <!-- Login Page -->
     <div id="login-page" class="min-h-screen flex flex-col items-center justify-center p-4">
         <div class="w-full max-w-md bg-white rounded-lg shadow-md p-8">
@@ -426,11 +429,11 @@
                         <p class="text-gray-700 mb-4">${post.content}</p>
                         <div class="flex items-center justify-between text-gray-500 text-sm">
                             <div class="flex items-center space-x-4">
-                                <button class="flex items-center hover:text-blue-500">
+                                <button class="flex items-center ">
                                     <i class="far fa-heart mr-1"></i>
                                     <span>${post.likes}</span>
                                 </button>
-                                <button class="flex items-center hover:text-blue-500">
+                                <button class="flex items-center">
                                     <i class="far fa-comment mr-1"></i>
                                     <span>${post.comments}</span>
                                 </button>
