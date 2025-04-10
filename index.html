@@ -64,13 +64,17 @@
         }
         
         .post-actions {
-            opacity: 0;
+            opacity: 1;
             transition: opacity 0.2s ease;
         }
-        
-        .post:hover .post-actions {
-            opacity: 1;
+
+        .border:focus{ 
+            border-color: orange;
         }
+        
+        /* .post:hover .post-actions {
+            opacity: 1;
+        } */
 
         .figma-color{ 
             background-color:#FF5733 ;
@@ -110,6 +114,8 @@
             width: 100%!important;
                  }
         }
+
+
 
     </style>
 </head>
@@ -442,7 +448,7 @@
                                 <button class="text-gray-400 hover:text-gray-600 post-options-btn" data-post-id="${post.id}">
                                     <i class="fas fa-ellipsis-h"></i>
                                 </button>
-                                <div class="absolute right-0 mt-1 w-32 bg-white rounded-md shadow-lg py-1 z-10 hidden post-options-menu">
+                                <div class="absolute right-0 mt-1 w-32 bg-white rounded-md shadow-lg py-1 z-10 post-options-menu">
                                     <button class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 edit-post-btn" data-post-id="${post.id}">Edit</button>
                                     <button class="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-100 delete-post-btn" data-post-id="${post.id}">Delete</button>
                                 </div>
