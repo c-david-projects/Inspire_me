@@ -244,6 +244,67 @@
             justify-content: flex-end;
         }
 
+        /* Likes page styles */
+        .likes-container {
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
+        }
+        
+        .like-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border-bottom: 1px solid #e5e7eb;
+            transition: background-color 0.2s;
+        }
+        
+        .like-item:hover {
+            background-color: #f9fafb;
+        }
+        
+        .like-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 12px;
+        }
+        
+        .like-info {
+            flex-grow: 1;
+        }
+        
+        .like-user {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        
+        .like-post {
+            font-size: 14px;
+            color: #6b7280;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 300px;
+        }
+        
+        .like-time {
+            font-size: 12px;
+            color: #9ca3af;
+        }
+        
+        .empty-likes {
+            text-align: center;
+            padding: 40px 20px;
+            color: #6b7280;
+        }
+        
+        .empty-likes i {
+            font-size: 40px;
+            margin-bottom: 16px;
+            color: #d1d5db;
+        }
+
     </style>
 </head>
 <body class="bg">
@@ -324,7 +385,7 @@
                             </button>
                         </li>
                         <li class="mb-2">
-                            <button class="w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors flex items-center">
+                            <button id="followers-btn" class="w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors flex items-center">
                                 Followers
                             </button>
                         </li>
@@ -365,7 +426,7 @@
                         <div class="mb-4">
                             <textarea id="post-content" class="w-full px-3 py-2 border rounded-lg" rows="4" placeholder="What's on your mind?"></textarea>
                         </div>
-                        <div class="flex justify-end">
+        <div class="flex justify-end">
                             <button type="submit" class="figma-color text-white px-4 py-2 border rounded-lg font-medium transition-colors">
                                 Post
                             </button>
@@ -438,6 +499,29 @@
                 </div>
             </div>
         </div>
+
+        <!-- Likes Page (hidden initially) -->
+        <div id="likes-page" class="hidden min-h-screen bg fixed inset-0 z-50 overflow-y-auto">
+            <div class="container mx-auto px-4 py-6 max-w-2xl">
+                <div class="flex items-center justify-between mb-6">
+                    <button id="back-to-wall-from-likes" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-arrow-left text-xl"></i>
+                    </button>
+                    <h2 class="text-xl font-bold figma-epilogue">Followers & Likes</h2>
+                    <div class="w-6"></div> <!-- Spacer for alignment -->
+                </div>
+                
+                <div class="bg-white rounded-lg p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-medium text-lg">People who liked your posts</h3>
+                    </div>
+                    
+                    <div class="likes-container" id="likes-container">
+                        <!-- Likes will be loaded here dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -467,6 +551,26 @@
                         content: "I've been there too! The sunset view is incredible.",
                         time: "45 minutes ago"
                     }
+                ],
+                likedBy: [
+                    {
+                        id: 101,
+                        name: "Sarah Williams",
+                        avatar: "https://randomuser.me/api/portraits/women/4.jpg",
+                        time: "1 hour ago"
+                    },
+                    {
+                        id: 102,
+                        name: "Mike Johnson",
+                        avatar: "https://randomuser.me/api/portraits/men/3.jpg",
+                        time: "45 minutes ago"
+                    },
+                    {
+                        id: 103,
+                        name: "Emily Davis",
+                        avatar: "https://randomuser.me/api/portraits/women/6.jpg",
+                        time: "30 minutes ago"
+                    }
                 ]
             },
             {
@@ -493,6 +597,26 @@
                         content: "Can't wait to see what you're building!",
                         time: "2 hours ago"
                     }
+                ],
+                likedBy: [
+                    {
+                        id: 201,
+                        name: "Alex Turner",
+                        avatar: "https://randomuser.me/api/portraits/men/5.jpg",
+                        time: "3 hours ago"
+                    },
+                    {
+                        id: 202,
+                        name: "Emily Davis",
+                        avatar: "https://randomuser.me/api/portraits/women/6.jpg",
+                        time: "2 hours ago"
+                    },
+                    {
+                        id: 203,
+                        name: "Robert Brown",
+                        avatar: "https://randomuser.me/api/portraits/men/7.jpg",
+                        time: "1 hour ago"
+                    }
                 ]
             },
             {
@@ -518,6 +642,26 @@
                         avatar: "https://randomuser.me/api/portraits/men/1.jpg",
                         content: "Thanks for the recommendation, just ordered it!",
                         time: "18 hours ago"
+                    }
+                ],
+                likedBy: [
+                    {
+                        id: 301,
+                        name: "Jane Smith",
+                        avatar: "https://randomuser.me/api/portraits/women/2.jpg",
+                        time: "20 hours ago"
+                    },
+                    {
+                        id: 302,
+                        name: "John Doe",
+                        avatar: "https://randomuser.me/api/portraits/men/1.jpg",
+                        time: "18 hours ago"
+                    },
+                    {
+                        id: 303,
+                        name: "Sarah Williams",
+                        avatar: "https://randomuser.me/api/portraits/women/4.jpg",
+                        time: "15 hours ago"
                     }
                 ]
             }
@@ -560,6 +704,7 @@
         const closeMenuBtn = document.getElementById('close-menu');
         const logoutBtn = document.getElementById('logout-btn');
         const editProfileBtn = document.getElementById('edit-profile-btn');
+        const followersBtn = document.getElementById('followers-btn');
         const addPostModal = document.getElementById('add-post-modal');
         const closePostModalBtn = document.getElementById('close-post-modal');
         const postForm = document.getElementById('post-form');
@@ -576,6 +721,9 @@
         const bioInput = document.getElementById('bio-input');
         const profileAvatar = document.getElementById('profile-avatar');
         const avatarInput = document.getElementById('avatar-input');
+        const likesPage = document.getElementById('likes-page');
+        const backToWallFromLikesBtn = document.getElementById('back-to-wall-from-likes');
+        const likesContainer = document.getElementById('likes-container');
         
         // New elements for comments modal
         const commentsModal = document.getElementById('comments-modal');
@@ -811,6 +959,70 @@
             });
         }
 
+        // Load likes page
+        function loadLikesPage() {
+            likesContainer.innerHTML = '';
+            
+            // Get all posts by current user
+            const userPosts = posts.filter(post => post.isAuthor);
+            
+            if (userPosts.length === 0) {
+                likesContainer.innerHTML = `
+                    <div class="empty-likes">
+                        <i class="far fa-heart"></i>
+                        <p>You haven't posted anything yet</p>
+                        <p class="text-sm mt-2">Create your first post to see who likes it</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Collect all likes from user's posts
+            let allLikes = [];
+            userPosts.forEach(post => {
+                if (post.likedBy && post.likedBy.length > 0) {
+                    post.likedBy.forEach(like => {
+                        allLikes.push({
+                            ...like,
+                            postContent: post.content
+                        });
+                    });
+                }
+            });
+            
+            if (allLikes.length === 0) {
+                likesContainer.innerHTML = `
+                    <div class="empty-likes">
+                        <i class="far fa-heart"></i>
+                        <p>No one has liked your posts yet</p>
+                        <p class="text-sm mt-2">Keep posting and engaging with others</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Sort by most recent
+            allLikes.sort((a, b) => new Date(b.time) - new Date(a.time));
+            
+            // Display likes
+            allLikes.forEach(like => {
+                const likeElement = document.createElement('div');
+                likeElement.className = 'like-item';
+                likeElement.innerHTML = `
+                    <img src="${like.avatar}" alt="${like.name}" class="like-avatar">
+                    <div class="like-info">
+                        <div class="like-user">${like.name}</div>
+                        <div class="like-post" title="${like.postContent}">Liked your post: ${like.postContent.substring(0, 30)}${like.postContent.length > 30 ? '...' : ''}</div>
+                        <div class="like-time">${like.time}</div>
+                    </div>
+                `;
+                likesContainer.appendChild(likeElement);
+            });
+            
+            // Show the likes page
+            likesPage.classList.remove('hidden');
+        }
+
         // Edit post
         function editPost(postId) {
             const post = posts.find(p => p.id === postId);
@@ -841,6 +1053,24 @@
             if (!post) return;
             
             post.likes += 1;
+            
+            // Add to likedBy array if it's the current user's post
+            if (post.isAuthor) {
+                if (!post.likedBy) {
+                    post.likedBy = [];
+                }
+                
+                // Simulate a random user liking the post
+                const randomUser = {
+                    id: Date.now(),
+                    name: ["Alex", "Sam", "Taylor", "Jordan", "Casey"][Math.floor(Math.random() * 5)],
+                    avatar: `https://randomuser.me/api/portraits/${Math.random() > 0.5 ? 'men' : 'women'}/${Math.floor(Math.random() * 50)}.jpg`,
+                    time: "Just now"
+                };
+                
+                post.likedBy.unshift(randomUser);
+            }
+            
             renderPosts();
             
             // Show notification
@@ -893,12 +1123,12 @@
                 </div>
                 ${isAuthorComment ? `
                 <div class="comment-actions">
-                    <button class="comment-options-btn" data-comment-id="${comment.id}">
+                    <button class="comment-options-btn text-gray-400 hover:text-gray-600" data-comment-id="${comment.id}">
                         <i class="fas fa-ellipsis-h"></i>
                     </button>
-                    <div class="comment-options-menu hidden">
-                        <button class="edit-comment-btn" data-comment-id="${comment.id}">Edit</button>
-                        <button class="delete-comment-btn" data-comment-id="${comment.id}">Delete</button>
+                    <div class="comment-options-menu hidden absolute right-0 top-8 bg-white rounded-md shadow-lg py-1 z-10 w-32">
+                        <button class="edit-comment-btn block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-comment-id="${comment.id}">Edit</button>
+                        <button class="delete-comment-btn block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-100" data-comment-id="${comment.id}">Delete</button>
                     </div>
                 </div>
                 ` : ''}
@@ -957,8 +1187,8 @@
             
             commentContent.innerHTML = `
                 <div class="comment-author">${comment.author}</div>
-                <textarea class="edit-comment-input">${comment.content}</textarea>
-                <div class="edit-comment-buttons">
+                <textarea class="edit-comment-input w-full px-3 py-2 border rounded-lg mb-2">${comment.content}</textarea>
+                <div class="edit-comment-buttons flex justify-end space-x-2">
                     <button class="cancel-edit-comment-btn px-3 py-1 text-gray-600 hover:text-gray-800">
                         Cancel
                     </button>
@@ -1008,12 +1238,12 @@
                     const commentActions = document.createElement('div');
                     commentActions.className = 'comment-actions';
                     commentActions.innerHTML = `
-                        <button class="comment-options-btn" data-comment-id="${comment.id}">
+                        <button class="comment-options-btn text-gray-400 hover:text-gray-600" data-comment-id="${comment.id}">
                             <i class="fas fa-ellipsis-h"></i>
                         </button>
-                        <div class="comment-options-menu hidden">
-                            <button class="edit-comment-btn" data-comment-id="${comment.id}">Edit</button>
-                            <button class="delete-comment-btn" data-comment-id="${comment.id}">Delete</button>
+                        <div class="comment-options-menu hidden absolute right-0 top-8 bg-white rounded-md shadow-lg py-1 z-10 w-32">
+                            <button class="edit-comment-btn block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-comment-id="${comment.id}">Edit</button>
+                            <button class="delete-comment-btn block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-100" data-comment-id="${comment.id}">Delete</button>
                         </div>
                     `;
                     
@@ -1149,6 +1379,15 @@
             }, 300);
         });
 
+        followersBtn.addEventListener('click', () => {
+            // Show likes page
+            loadLikesPage();
+            document.querySelector('.slide-in').classList.remove('active');
+            setTimeout(() => {
+                sideMenu.classList.add('hidden');
+            }, 300);
+        });
+
         closePostModalBtn.addEventListener('click', () => {
             addPostModal.classList.add('hidden');
         });
@@ -1173,7 +1412,8 @@
                     likes: 0,
                     comments: 0,
                     isAuthor: true,
-                    commentsList: []
+                    commentsList: [],
+                    likedBy: []
                 };
                 
                 posts.unshift(newPost);
@@ -1269,6 +1509,10 @@
             editProfilePage.classList.add('hidden');
         });
 
+        backToWallFromLikesBtn.addEventListener('click', () => {
+            likesPage.classList.add('hidden');
+        });
+
         profileForm.addEventListener('submit', (e) => {
             e.preventDefault();
             
@@ -1341,6 +1585,10 @@
             if (e.target === commentsModal) {
                 commentsModal.classList.add('hidden');
                 editingCommentId = null;
+            }
+            
+            if (e.target === likesPage) {
+                likesPage.classList.add('hidden');
             }
         });
 
