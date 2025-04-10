@@ -64,7 +64,7 @@
         }
         
         .post-actions {
-            opacity: 1;
+            opacity: 0;
             transition: opacity 0.2s ease;
         }
 
@@ -72,9 +72,9 @@
             border-color: orange;
         }
         
-        /* .post:hover .post-actions {
+        .post:hover .post-actions {
             opacity: 1;
-        } */
+        } 
 
         .figma-color{ 
             background-color:#FF5733 ;
@@ -115,7 +115,7 @@
                  }
         }
 
-
+        
 
     </style>
 </head>
@@ -239,7 +239,7 @@
                             <textarea id="post-content" class="w-full px-3 py-2 border rounded-lg" rows="4" placeholder="What's on your mind?"></textarea>
                         </div>
                         <div class="flex justify-end">
-                            <button type="submit" class="figma-color text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                            <button type="submit" class="figma-color text-white px-4 py-2 border rounded-lg font-medium transition-colors">
                                 Post
                             </button>
                         </div>
