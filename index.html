@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <title>Social Wall</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -91,6 +91,13 @@
            background-color: #FFFBFA;
          }
 
+         .figma-epilogue{
+            font-family: "Epilogue";
+            font-size:24px;
+            font-weight: bold;
+            color:#D72600;
+         }
+
          @media screen and (max-width: 600px) {
             .w-72 {
             width: 100%!important;
@@ -169,23 +176,20 @@
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
-                <nav class="p-4">
+                <nav class="p-4 figma-epilogue">
                     <ul>
                         <li class="mb-2">
                             <button id="edit-profile-btn" class="w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors flex items-center">
-                                <i class="fas fa-user-edit text-gray-500 mr-3"></i>
                                 Edit Profile
                             </button>
                         </li>
                         <li class="mb-2">
                             <button class="w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors flex items-center">
-                                <i class="fas fa-users text-gray-500 mr-3"></i>
                                 Followers
                             </button>
                         </li>
                         <li>
-                            <button id="logout-btn" class="w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors flex items-center text-red-500">
-                                <i class="fas fa-sign-out-alt mr-3"></i>
+                            <button id="logout-btn" class="w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors flex items-center">
                                 Logout
                             </button>
                         </li>
