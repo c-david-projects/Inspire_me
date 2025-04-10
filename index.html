@@ -71,6 +71,9 @@
         .fa-bars{ 
             color:#FF5733
         }
+        .brd-radius { 
+            border-radius:6px
+        }
     </style>
 </head>
 <body class="bg-gray-100 font-sans">
@@ -78,7 +81,7 @@
     <div id="login-page" class="min-h-screen flex flex-col items-center justify-center p-4">
         <div class="w-full max-w-md bg-white rounded-lg shadow-md p-8">
             <div class="flex justify-center mb-8">
-                <div class="bg-blue-500 text-white p-4 rounded-full">
+                <div class="bg-blue-500 text-white p-4 brd-radius">
                     <i class="fas fa-comments text-4xl"></i>
                 </div>
             </div>
@@ -106,7 +109,7 @@
                 </div>
                 
                 <div class="flex items-center space-x-4">
-                    <button id="add-post-btn" class="text-white px-4 py-2 rounded-full text-sm font-medium transition-colors figma-color">
+                    <button id="add-post-btn" class="text-white px-4 py-2 brd-radius text-sm font-medium transition-colors figma-color">
                         <i class="fas fa-plus mr-1"></i> New Post
                     </button>
                     
@@ -119,9 +122,9 @@
 
         <!-- Notification Bell -->
         <div class="fixed bottom-6 right-6 z-20">
-            <button id="notification-btn" class="bg-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center text-gray-700 hover:text-blue-500 relative">
+            <button id="notification-btn" class="bg-white w-12 h-12 brd-radius shadow-lg flex items-center justify-center text-gray-700 hover:text-blue-500 relative">
                 <i class="fas fa-bell text-xl"></i>
-                <span id="notification-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">3</span>
+                <span id="notification-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs brd-radius w-5 h-5 flex items-center justify-center hidden">3</span>
             </button>
         </div>
 
@@ -226,10 +229,7 @@
                     <div class="flex flex-col items-center mb-6">
                         <div class="avatar-upload mb-4">
                             <div class="relative">
-                                <img id="profile-avatar" src="https://ui-avatars.com/api/?name=User&background=random" alt="Profile" class="w-24 h-24 rounded-full object-cover border-4 border-white shadow">
-                                <div class="absolute bottom-0 right-0 bg-blue-500 text-white p-2 rounded-full">
-                                    <i class="fas fa-camera"></i>
-                                </div>
+                                <img id="profile-avatar" src="https://ui-avatars.com/api/?name=User&background=random" alt="Profile" class="w-24 h-24 brd-radius object-cover border-4 border-white shadow">
                                 <input type="file" id="avatar-input" accept="image/*" class="hidden">
                             </div>
                         </div>
@@ -248,7 +248,7 @@
                         </div>
                         
                         <div class="flex justify-end">
-                            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                            <button type="submit" class="figma-color text-white px-4 py-2 rounded-lg font-medium transition-colors">
                                 Save Changes
                             </button>
                         </div>
@@ -405,7 +405,7 @@
                     <div class="p-4">
                         <div class="flex items-center justify-between mb-3">
                             <div class="flex items-center">
-                                <img src="${post.avatar}" alt="${post.author}" class="w-10 h-10 rounded-full object-cover mr-3">
+                                <img src="${post.avatar}" alt="${post.author}" class="w-10 h-10 brd-radius object-cover mr-3">
                                 <div>
                                     <h4 class="font-medium text-gray-800">${post.author}</h4>
                                     <p class="text-xs text-gray-500">${post.time}</p>
@@ -515,7 +515,7 @@
                 if (notification.type === 'like') {
                     content = `
                         <div class="flex items-center">
-                            <img src="${notification.avatar}" alt="${notification.from}" class="w-8 h-8 rounded-full object-cover mr-3">
+                            <img src="${notification.avatar}" alt="${notification.from}" class="w-8 h-8 brd-radius object-cover mr-3">
                             <div>
                                 <p class="text-sm">
                                     <span class="font-medium">${notification.from}</span> liked your post
@@ -527,7 +527,7 @@
                 } else if (notification.type === 'comment') {
                     content = `
                         <div class="flex items-start">
-                            <img src="${notification.avatar}" alt="${notification.from}" class="w-8 h-8 rounded-full object-cover mr-3">
+                            <img src="${notification.avatar}" alt="${notification.from}" class="w-8 h-8 brd-radius object-cover mr-3">
                             <div>
                                 <p class="text-sm">
                                     <span class="font-medium">${notification.from}</span> commented on your post
@@ -540,7 +540,7 @@
                 } else if (notification.type === 'follow') {
                     content = `
                         <div class="flex items-center">
-                            <img src="${notification.avatar}" alt="${notification.from}" class="w-8 h-8 rounded-full object-cover mr-3">
+                            <img src="${notification.avatar}" alt="${notification.from}" class="w-8 h-8 brd-radius object-cover mr-3">
                             <div>
                                 <p class="text-sm">
                                     <span class="font-medium">${notification.from}</span> started following you
