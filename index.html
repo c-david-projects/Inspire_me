@@ -115,7 +115,134 @@
                  }
         }
 
+        /* Comments modal styles */
+        .comments-modal {
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+        }
         
+        .comments-header {
+            flex-shrink: 0;
+        }
+        
+        .comments-list {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 0 1rem;
+            max-height: 60vh;
+            scrollbar-width: thin;
+            scrollbar-color: #FF5733 #f1f1f1;
+        }
+        
+        .comments-list::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .comments-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        .comments-list::-webkit-scrollbar-thumb {
+            background-color: #FF5733;
+            border-radius: 10px;
+        }
+        
+        .comment-input-container {
+            flex-shrink: 0;
+            padding: 1rem;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .comment-item {
+            display: flex;
+            margin-bottom: 1rem;
+            animation: fadeIn 0.2s ease-in;
+            position: relative;
+        }
+        
+        .comment-avatar {
+            flex-shrink: 0;
+            margin-right: 0.75rem;
+        }
+        
+        .comment-content {
+            flex-grow: 1;
+            position: relative;
+            padding-right: 1.5rem;
+        }
+        
+        .comment-author {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .comment-text {
+            word-break: break-word;
+        }
+        
+        .comment-time {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
+        }
+        
+        .comment-actions {
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+        
+        .comment-options-btn {
+            color: #9ca3af;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        
+        .comment-options-btn:hover {
+            color: #4b5563;
+        }
+        
+        .comment-options-menu {
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background-color: white;
+            border-radius: 0.375rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            z-index: 10;
+            min-width: 120px;
+            display: none;
+        }
+        
+        .comment-options-menu button {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            color: #4b5563;
+            transition: background-color 0.2s;
+        }
+        
+        .comment-options-menu button:hover {
+            background-color: #f3f4f6;
+        }
+        
+        .edit-comment-input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.375rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .edit-comment-buttons {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+        }
 
     </style>
 </head>
@@ -248,6 +375,29 @@
             </div>
         </div>
 
+        <!-- Comments Modal -->
+        <div id="comments-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+            <div class="bg-white rounded-lg shadow-xl w-full max-w-md fade-in comments-modal">
+                <div class="p-4 border-b border-gray-200 flex justify-between items-center comments-header">
+                    <h3 class="font-medium figma-epilogue"><b>Comments</b></h3>
+                    <button id="close-comments-modal" class="text-gray-500">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="comments-list" id="comments-list">
+                    <!-- Comments will be loaded here -->
+                </div>
+                <div class="comment-input-container">
+                    <form id="comment-form" class="flex items-center">
+                        <input type="text" id="comment-input" class="flex-grow px-3 py-2 border rounded-l-lg focus:outline-none" placeholder="Write a comment...">
+                        <button type="submit" class="figma-color text-white px-4 py-2 rounded-r-lg font-medium">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <!-- Edit Profile Page (hidden initially) -->
         <div id="edit-profile-page" class="hidden min-h-screen bg fixed inset-0 z-50 overflow-y-auto">
             <div class="container mx-auto px-4 py-6 max-w-2xl">
@@ -301,7 +451,23 @@
                 time: "2 hours ago",
                 likes: 15,
                 comments: 4,
-                isAuthor: false
+                isAuthor: false,
+                commentsList: [
+                    {
+                        id: 1,
+                        author: "Sarah Williams",
+                        avatar: "https://randomuser.me/api/portraits/women/4.jpg",
+                        content: "That sounds amazing! Where was this hike?",
+                        time: "1 hour ago"
+                    },
+                    {
+                        id: 2,
+                        author: "Mike Johnson",
+                        avatar: "https://randomuser.me/api/portraits/men/3.jpg",
+                        content: "I've been there too! The sunset view is incredible.",
+                        time: "45 minutes ago"
+                    }
+                ]
             },
             {
                 id: 2,
@@ -311,7 +477,23 @@
                 time: "5 hours ago",
                 likes: 28,
                 comments: 7,
-                isAuthor: true
+                isAuthor: true,
+                commentsList: [
+                    {
+                        id: 3,
+                        author: "Alex Turner",
+                        avatar: "https://randomuser.me/api/portraits/men/5.jpg",
+                        content: "This sounds interesting! What tech stack are you using?",
+                        time: "3 hours ago"
+                    },
+                    {
+                        id: 4,
+                        author: "Emily Davis",
+                        avatar: "https://randomuser.me/api/portraits/women/6.jpg",
+                        content: "Can't wait to see what you're building!",
+                        time: "2 hours ago"
+                    }
+                ]
             },
             {
                 id: 3,
@@ -321,7 +503,23 @@
                 time: "1 day ago",
                 likes: 42,
                 comments: 12,
-                isAuthor: false
+                isAuthor: false,
+                commentsList: [
+                    {
+                        id: 5,
+                        author: "Jane Smith",
+                        avatar: "https://randomuser.me/api/portraits/women/2.jpg",
+                        content: "I've read it too! Changed my morning routine completely.",
+                        time: "20 hours ago"
+                    },
+                    {
+                        id: 6,
+                        author: "John Doe",
+                        avatar: "https://randomuser.me/api/portraits/men/1.jpg",
+                        content: "Thanks for the recommendation, just ordered it!",
+                        time: "18 hours ago"
+                    }
+                ]
             }
         ];
 
@@ -378,11 +576,20 @@
         const bioInput = document.getElementById('bio-input');
         const profileAvatar = document.getElementById('profile-avatar');
         const avatarInput = document.getElementById('avatar-input');
+        
+        // New elements for comments modal
+        const commentsModal = document.getElementById('comments-modal');
+        const closeCommentsModalBtn = document.getElementById('close-comments-modal');
+        const commentsList = document.getElementById('comments-list');
+        const commentForm = document.getElementById('comment-form');
+        const commentInput = document.getElementById('comment-input');
 
         // State
         let currentUser = null;
         let posts = [];
         let notifications = [];
+        let currentPostId = null;
+        let editingCommentId = null;
 
         // Initialize the app
         function initApp() {
@@ -448,7 +655,7 @@
                                 <button class="text-gray-400 hover:text-gray-600 post-options-btn" data-post-id="${post.id}">
                                     <i class="fas fa-ellipsis-h"></i>
                                 </button>
-                                <div class="absolute right-0 mt-1 w-32 bg-white rounded-md shadow-lg py-1 z-10 post-options-menu">
+                                <div class="absolute right-0 mt-1 w-32 bg-white rounded-md shadow-lg py-1 z-10 post-options-menu hidden">
                                     <button class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 edit-post-btn" data-post-id="${post.id}">Edit</button>
                                     <button class="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-100 delete-post-btn" data-post-id="${post.id}">Delete</button>
                                 </div>
@@ -458,11 +665,11 @@
                         <p class="text-gray-700 mb-4">${post.content}</p>
                         <div class="flex items-center justify-between text-gray-500 text-sm">
                             <div class="flex items-center space-x-4">
-                                <button class="flex items-center ">
+                                <button class="flex items-center like-btn" data-post-id="${post.id}">
                                     <i class="far fa-heart mr-1"></i>
-                                    <span>${post.likes}</span>
+                                    <span class="like-count">${post.likes}</span>
                                 </button>
-                                <button class="flex items-center">
+                                <button class="flex items-center view-comments-btn" data-post-id="${post.id}">
                                     <i class="far fa-comment mr-1"></i>
                                     <span>${post.comments}</span>
                                 </button>
@@ -501,6 +708,22 @@
                 btn.addEventListener('click', (e) => {
                     const postId = parseInt(e.currentTarget.getAttribute('data-post-id'));
                     deletePost(postId);
+                });
+            });
+            
+            // Add event listeners for like buttons
+            document.querySelectorAll('.like-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const postId = parseInt(e.currentTarget.getAttribute('data-post-id'));
+                    likePost(postId);
+                });
+            });
+            
+            // Add event listeners for comment buttons
+            document.querySelectorAll('.view-comments-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const postId = parseInt(e.currentTarget.getAttribute('data-post-id'));
+                    showCommentsModal(postId);
                 });
             });
             
@@ -544,7 +767,7 @@
                 notificationElement.className = 'notification p-3 border-b border-gray-100 hover:bg-gray-50 cursor-pointer';
                 
                 let content = '';
-                if (notification.type === 'like') {
+                if (notification.type === "like") {
                     content = `
                         <div class="flex items-center">
                             <img src="${notification.avatar}" alt="${notification.from}" class="w-8 h-8 brd-radius object-cover mr-3">
@@ -556,7 +779,7 @@
                             </div>
                         </div>
                     `;
-                } else if (notification.type === 'comment') {
+                } else if (notification.type === "comment") {
                     content = `
                         <div class="flex items-start">
                             <img src="${notification.avatar}" alt="${notification.from}" class="w-8 h-8 brd-radius object-cover mr-3">
@@ -569,7 +792,7 @@
                             </div>
                         </div>
                     `;
-                } else if (notification.type === 'follow') {
+                } else if (notification.type === "follow") {
                     content = `
                         <div class="flex items-center">
                             <img src="${notification.avatar}" alt="${notification.from}" class="w-8 h-8 brd-radius object-cover mr-3">
@@ -609,6 +832,249 @@
                 
                 // Show notification
                 showNotification('Post deleted successfully');
+            }
+        }
+
+        // Like post
+        function likePost(postId) {
+            const post = posts.find(p => p.id === postId);
+            if (!post) return;
+            
+            post.likes += 1;
+            renderPosts();
+            
+            // Show notification
+            showNotification('You liked a post');
+        }
+
+        // Show comments modal
+        function showCommentsModal(postId) {
+            currentPostId = postId;
+            const post = posts.find(p => p.id === postId);
+            if (!post) return;
+            
+            // Clear previous comments
+            commentsList.innerHTML = '';
+            
+            // Add current comments
+            if (post.commentsList && post.commentsList.length > 0) {
+                post.commentsList.forEach(comment => {
+                    addCommentToDOM(comment, post);
+                });
+            } else {
+                commentsList.innerHTML = `
+                    <div class="text-center py-8 text-gray-500">
+                        <i class="far fa-comment-dots text-2xl mb-2"></i>
+                        <p>No comments yet. Be the first to comment!</p>
+                    </div>
+                `;
+            }
+            
+            // Show modal
+            commentsModal.classList.remove('hidden');
+        }
+
+        // Add comment to DOM
+        function addCommentToDOM(comment, post) {
+            const commentElement = document.createElement('div');
+            commentElement.className = 'comment-item';
+            commentElement.dataset.commentId = comment.id;
+            
+            const isAuthorComment = comment.author === currentUser.name;
+            
+            commentElement.innerHTML = `
+                <div class="comment-avatar">
+                    <img src="${comment.avatar}" alt="${comment.author}" class="w-8 h-8 brd-radius object-cover">
+                </div>
+                <div class="comment-content">
+                    <div class="comment-author">${comment.author}</div>
+                    <div class="comment-text">${comment.content}</div>
+                    <div class="comment-time">${comment.time}</div>
+                </div>
+                ${isAuthorComment ? `
+                <div class="comment-actions">
+                    <button class="comment-options-btn" data-comment-id="${comment.id}">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </button>
+                    <div class="comment-options-menu hidden">
+                        <button class="edit-comment-btn" data-comment-id="${comment.id}">Edit</button>
+                        <button class="delete-comment-btn" data-comment-id="${comment.id}">Delete</button>
+                    </div>
+                </div>
+                ` : ''}
+            `;
+            
+            commentsList.appendChild(commentElement);
+            
+            // Add event listeners for comment options if it's the author's comment
+            if (isAuthorComment) {
+                const optionsBtn = commentElement.querySelector('.comment-options-btn');
+                const optionsMenu = commentElement.querySelector('.comment-options-menu');
+                
+                optionsBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    optionsMenu.classList.toggle('hidden');
+                    
+                    // Close other open menus
+                    document.querySelectorAll('.comment-options-menu').forEach(menu => {
+                        if (menu !== optionsMenu) menu.classList.add('hidden');
+                    });
+                });
+                
+                const editBtn = commentElement.querySelector('.edit-comment-btn');
+                const deleteBtn = commentElement.querySelector('.delete-comment-btn');
+                
+                editBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    editComment(comment.id, post);
+                });
+                
+                deleteBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    deleteComment(comment.id, post);
+                });
+            }
+            
+            // Close menus when clicking elsewhere
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.comment-options-btn') && !e.target.closest('.comment-options-menu')) {
+                    document.querySelectorAll('.comment-options-menu').forEach(menu => {
+                        menu.classList.add('hidden');
+                    });
+                }
+            });
+        }
+
+        // Edit comment
+        function editComment(commentId, post) {
+            const comment = post.commentsList.find(c => c.id === commentId);
+            if (!comment) return;
+            
+            editingCommentId = commentId;
+            
+            const commentElement = document.querySelector(`.comment-item[data-comment-id="${commentId}"]`);
+            const commentContent = commentElement.querySelector('.comment-content');
+            
+            commentContent.innerHTML = `
+                <div class="comment-author">${comment.author}</div>
+                <textarea class="edit-comment-input">${comment.content}</textarea>
+                <div class="edit-comment-buttons">
+                    <button class="cancel-edit-comment-btn px-3 py-1 text-gray-600 hover:text-gray-800">
+                        Cancel
+                    </button>
+                    <button class="save-edit-comment-btn px-3 py-1 figma-color text-white rounded">
+                        Save
+                    </button>
+                </div>
+            `;
+            
+            const cancelBtn = commentContent.querySelector('.cancel-edit-comment-btn');
+            const saveBtn = commentContent.querySelector('.save-edit-comment-btn');
+            const textarea = commentContent.querySelector('.edit-comment-input');
+            
+            textarea.focus();
+            
+            cancelBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                renderComment(comment, post);
+            });
+            
+            saveBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const newContent = textarea.value.trim();
+                
+                if (newContent) {
+                    comment.content = newContent;
+                    comment.time = "Just now (edited)";
+                    renderComment(comment, post);
+                    showNotification('Comment updated');
+                }
+            });
+        }
+
+        // Render comment after editing
+        function renderComment(comment, post) {
+            editingCommentId = null;
+            const commentElement = document.querySelector(`.comment-item[data-comment-id="${comment.id}"]`);
+            
+            if (commentElement) {
+                commentElement.querySelector('.comment-content').innerHTML = `
+                    <div class="comment-author">${comment.author}</div>
+                    <div class="comment-text">${comment.content}</div>
+                    <div class="comment-time">${comment.time}</div>
+                `;
+                
+                if (comment.author === currentUser.name) {
+                    const commentActions = document.createElement('div');
+                    commentActions.className = 'comment-actions';
+                    commentActions.innerHTML = `
+                        <button class="comment-options-btn" data-comment-id="${comment.id}">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </button>
+                        <div class="comment-options-menu hidden">
+                            <button class="edit-comment-btn" data-comment-id="${comment.id}">Edit</button>
+                            <button class="delete-comment-btn" data-comment-id="${comment.id}">Delete</button>
+                        </div>
+                    `;
+                    
+                    commentElement.appendChild(commentActions);
+                    
+                    // Re-add event listeners
+                    const optionsBtn = commentElement.querySelector('.comment-options-btn');
+                    const optionsMenu = commentElement.querySelector('.comment-options-menu');
+                    
+                    optionsBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        optionsMenu.classList.toggle('hidden');
+                        
+                        // Close other open menus
+                        document.querySelectorAll('.comment-options-menu').forEach(menu => {
+                            if (menu !== optionsMenu) menu.classList.add('hidden');
+                        });
+                    });
+                    
+                    const editBtn = commentElement.querySelector('.edit-comment-btn');
+                    const deleteBtn = commentElement.querySelector('.delete-comment-btn');
+                    
+                    editBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        editComment(comment.id, post);
+                    });
+                    
+                    deleteBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        deleteComment(comment.id, post);
+                    });
+                }
+            }
+        }
+
+        // Delete comment
+        function deleteComment(commentId, post) {
+            if (confirm('Are you sure you want to delete this comment?')) {
+                post.commentsList = post.commentsList.filter(c => c.id !== commentId);
+                post.comments -= 1;
+                
+                const commentElement = document.querySelector(`.comment-item[data-comment-id="${commentId}"]`);
+                if (commentElement) {
+                    commentElement.remove();
+                }
+                
+                // Update post in main view
+                renderPosts();
+                
+                // Show notification
+                showNotification('Comment deleted');
+                
+                // If no comments left, show empty state
+                if (post.commentsList.length === 0) {
+                    commentsList.innerHTML = `
+                        <div class="text-center py-8 text-gray-500">
+                            <i class="far fa-comment-dots text-2xl mb-2"></i>
+                            <p>No comments yet. Be the first to comment!</p>
+                        </div>
+                    `;
+                }
             }
         }
 
@@ -687,6 +1153,11 @@
             addPostModal.classList.add('hidden');
         });
 
+        closeCommentsModalBtn.addEventListener('click', () => {
+            commentsModal.classList.add('hidden');
+            editingCommentId = null;
+        });
+
         postForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const content = document.getElementById('post-content').value.trim();
@@ -701,7 +1172,8 @@
                     time: 'Just now',
                     likes: 0,
                     comments: 0,
-                    isAuthor: true
+                    isAuthor: true,
+                    commentsList: []
                 };
                 
                 posts.unshift(newPost);
@@ -724,6 +1196,59 @@
                     notificationCount.classList.remove('hidden');
                     renderNotifications();
                 }, 2000);
+            }
+        });
+
+        commentForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const content = commentInput.value.trim();
+            
+            if (content && currentPostId) {
+                const post = posts.find(p => p.id === currentPostId);
+                if (!post) return;
+                
+                if (editingCommentId) {
+                    // Update existing comment
+                    const comment = post.commentsList.find(c => c.id === editingCommentId);
+                    if (comment) {
+                        comment.content = content;
+                        comment.time = "Just now (edited)";
+                        
+                        renderComment(comment, post);
+                        showNotification('Comment updated');
+                    }
+                    editingCommentId = null;
+                } else {
+                    // Create new comment
+                    const newComment = {
+                        id: Date.now(),
+                        author: currentUser.name,
+                        avatar: currentUser.avatar,
+                        content: content,
+                        time: 'Just now'
+                    };
+                    
+                    // Add comment to post
+                    if (!post.commentsList) {
+                        post.commentsList = [];
+                    }
+                    post.commentsList.push(newComment);
+                    post.comments += 1;
+                    
+                    // Update UI
+                    if (commentsList.querySelector('.text-center')) {
+                        commentsList.innerHTML = '';
+                    }
+                    addCommentToDOM(newComment, post);
+                }
+                
+                commentInput.value = '';
+                
+                // Scroll to bottom of comments
+                commentsList.scrollTop = commentsList.scrollHeight;
+                
+                // Update post in main view
+                renderPosts();
             }
         });
 
@@ -811,6 +1336,11 @@
             
             if (e.target === notificationPanel) {
                 notificationPanel.classList.add('hidden');
+            }
+            
+            if (e.target === commentsModal) {
+                commentsModal.classList.add('hidden');
+                editingCommentId = null;
             }
         });
 
